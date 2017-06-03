@@ -6,6 +6,11 @@ from botocore.client import ClientError
 from .helpers import ConfigParser
 from . import exceptions
 
+try:
+    input = raw_input
+except NameError:
+    pass
+
 
 class AWS2FA(object):
 
@@ -67,7 +72,7 @@ class AWS2FA(object):
         asking the user the serial number of the device."""
         parser = ConfigParser()
         parser.read(self._devices_path)
-        serial_number = raw_input("2FA device serial number for profile '{}': ".format(self.profile))
+        serial_number = input("2FA device serial number for profile '{}': ".format(self.profile))
         parser.add_section(self.profile)
         parser.set(self.profile, 'serial_number', serial_number)
         with open(self._devices_path, 'wb') as f:
@@ -86,7 +91,7 @@ class AWS2FA(object):
         """Asks and return the the user 2FA token after some basic validation."""
         token_code = ""
         while len(token_code) != 6:
-            token_code = raw_input("2FA code: ")
+            token_code = input("2FA code: ")
         return token_code
 
     def _save_master_credentials_if_required(self):
