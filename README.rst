@@ -10,6 +10,9 @@ Usage::
     2FA code: 123456
     Sucesss! Your token will expire on: 2017-06-04 09:08:27+00:00
 
+Now you can use ``aws-cli`` or any ``aws`` library which uses ``~/.aws/credentials`` standard configuration.
+
+
 Features
 ---------
 
