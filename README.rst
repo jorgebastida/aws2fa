@@ -13,7 +13,7 @@ Usage::
 Features
 ---------
 
-* ``aws2fa`` respects ``aws-cli`` configuration. No new magic or duplicated credentials.
+* ``aws2fa`` respects ``aws-cli`` configuration. No magic, no duplicated credentials.
 * Full integration with ``aws-cli`` profiles
 * Smooth device handling
 * Super minimal implementation
