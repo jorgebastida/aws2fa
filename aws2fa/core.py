@@ -10,9 +10,9 @@ from . import exceptions
 class AWS2FA(object):
 
     def __init__(self, **kwargs):
-        self._devices_path = os.path.join(os.path.expanduser('~'), '.aws', 'devices')
-        self._credentials_path = os.path.join(os.path.expanduser('~'), '.aws', 'credentials')
-        self._master_credentials_path = os.path.join(os.path.expanduser('~'), '.aws', 'credentials_master')
+        self._devices_path = os.path.join(self._get_configuration_path(), 'devices')
+        self._credentials_path = os.path.join(self._get_configuration_path(), 'credentials')
+        self._master_credentials_path = os.path.join(self._get_configuration_path(), 'credentials_master')
         self.profile = kwargs.get('profile')
         self.hours = kwargs.get('hours')
         self._profile_credentials = self._get_profile_credentials()
@@ -22,6 +22,9 @@ class AWS2FA(object):
             aws_access_key_id=self._profile_credentials['aws_access_key_id'],
             aws_secret_access_key=self._profile_credentials['aws_secret_access_key'],
         )
+
+    def _get_configuration_path(self):
+        return os.path.join(os.path.expanduser('~'), '.aws')
 
     def _get_credentials_config(self, path):
         """Returns a ConfigParser instance for the give ``path``"""
