@@ -3,7 +3,7 @@ aws2fa
 
 ``aws2fa`` is a simple command to handle 2fa authentication respecting ``aws-cli`` standard configuration.
 
-Simple usage::
+Usage::
 
     $ aws2fa [profile]
     2FA device serial number for profile 'default': arn:aws:iam::123456789:mfa/username
@@ -19,8 +19,24 @@ Features
 * Super minimal implementation
 
 
-Configuration
+Installation
 --------------
+
+Simply run::
+
+    $ pip install aws2fa
+
+
+We assume you have previously installed and configured ``aws-cli``::
+
+    $ pip install awscli
+    $ awscli configure
+
+
+Configuration files
+--------------------
+
+``aws2fa`` handles this configuration automatically for you. You don't need to create these files manually.
 
 * ``~/.aws/devices``: In this file, ``aws2fa`` stores the device serial number of your 2fa device for each of your profiles. If the file is not present, or you are configuring a new profile, ``aws2fa`` will ask you for the serial number and store it in this file.
 * ``~/.aws/credentials_master``: In this file, ``aws2fa`` stores the original master credentials which will be used in the future to retrieve more temporal credentials.
