@@ -52,7 +52,7 @@ class AWS2FA(object):
     def _setup_profile_device(self):
         parser = ConfigParser()
         parser.read(self._devices_path)
-        serial_number = raw_input("2FA Device serial number for profile '{}': ".format(self.profile))
+        serial_number = raw_input("2FA device serial number for profile '{}': ".format(self.profile))
         parser.add_section(self.profile)
         parser.set(self.profile, 'serial_number', serial_number)
         with open(self._devices_path, 'w') as f:

@@ -6,7 +6,7 @@ aws2fa
 Simple usage::
 
     $ aws2fa [profile]
-    2FA Device serial number for profile 'default': arn:aws:iam::123456789:mfa/username
+    2FA device serial number for profile 'default': arn:aws:iam::123456789:mfa/username
     2FA code: 123456
     Sucesss! Your token will expire on: 2017-06-04 09:08:27+00:00
 
