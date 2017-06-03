@@ -55,8 +55,6 @@ Contribute
 
 * Send a pull request and bug the maintainer until it gets merged and published. :).
 
-For more instructions see `TESTING.rst`.
-
 
 Helpful Links
 -------------
