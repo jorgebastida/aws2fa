@@ -1,4 +1,7 @@
-from ConfigParser import ConfigParser as DefaultConfigParser
+try:
+    from ConfigParser import ConfigParser as DefaultConfigParser
+except ImportError:
+    from configparser import ConfigParser as DefaultConfigParser
 
 
 class ConfigParser(DefaultConfigParser):
