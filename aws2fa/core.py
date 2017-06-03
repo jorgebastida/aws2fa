@@ -29,7 +29,7 @@ class AWS2FA(object):
     def _get_credentials_config(self, path):
         """Returns a ConfigParser instance for the give ``path``"""
         parser = ConfigParser()
-        success = parser.read(path)
+        parser.read(path)
         return parser
 
     def _get_profile_credentials(self):

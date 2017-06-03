@@ -1,7 +1,9 @@
 try:
     from ConfigParser import ConfigParser as DefaultConfigParser
+    from ConfigParser import NoSectionError, DuplicateSectionError
 except ImportError:
     from configparser import ConfigParser as DefaultConfigParser
+    from configparser import NoSectionError, DuplicateSectionError
 
 
 class ConfigParser(DefaultConfigParser):
