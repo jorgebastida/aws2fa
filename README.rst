@@ -22,12 +22,8 @@ Features
 Configuration
 --------------
 
-* ``~/.aws/devices``
-  * In this file, ``aws2fa`` stores the device serial number of your 2fa device for each of your profiles.
-  * If the file is not present, or you are configuring a new profile, ``aws2fa`` will ask you for the serial number and store it in this file.
-
-* ``~/.aws/credentials_master``
-  * In this file, ``aws2fa`` stores the original master credentials which will be used in the future to retrieve more temporal credentials.
+* ``~/.aws/devices``: In this file, ``aws2fa`` stores the device serial number of your 2fa device for each of your profiles. If the file is not present, or you are configuring a new profile, ``aws2fa`` will ask you for the serial number and store it in this file.
+* ``~/.aws/credentials_master``: In this file, ``aws2fa`` stores the original master credentials which will be used in the future to retrieve more temporal credentials.
 
 
 Contribute
