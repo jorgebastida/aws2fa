@@ -12,7 +12,7 @@ class AWS2FA(object):
     def __init__(self, **kwargs):
         self._devices_path = os.path.join(os.path.expanduser('~'), '.aws', 'devices')
         self._credentials_path = os.path.join(os.path.expanduser('~'), '.aws', 'credentials')
-        self._master_credentials_path = os.path.join(os.path.expanduser('~'), '.aws', 'master_credentials')
+        self._master_credentials_path = os.path.join(os.path.expanduser('~'), '.aws', 'credentials_master')
         self.profile = kwargs.get('profile')
         self.hours = kwargs.get('hours')
         self._profile_credentials = self._get_profile_credentials()
