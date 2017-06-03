@@ -7,6 +7,15 @@ Simple usage::
 
     $ aws2fa [profile]
 
+Features
+---------
+
+* ``aws2fa`` respects ``aws-cli`` configuration (``~/.aws/credentials`` and ``~/.aws/config``) no new magic or copies of your credentials
+* Full support with ``aws-cli`` profiles
+* Smooth device handling
+* Super minimal implementation
+
+
 Contribute
 -----------
 
