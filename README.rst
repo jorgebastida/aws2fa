@@ -16,6 +16,14 @@ Features
 * Super minimal implementation
 
 
+Configuration
+--------------
+
+The only new configuration file ``aws2fa`` creates is ``~/.aws/devices``. In this file, ``aws2fa`` stores the device serial number of your 2fa device for each of your profiles.
+
+If the file is not present, or you are configuring a new profile, ``aws2fa`` will ask you for the serial number and store it in this file.
+
+
 Contribute
 -----------
 
