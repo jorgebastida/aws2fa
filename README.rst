@@ -10,8 +10,8 @@ Simple usage::
 Features
 ---------
 
-* ``aws2fa`` respects ``aws-cli`` configuration (``~/.aws/credentials`` and ``~/.aws/config``) no new magic or copies of your credentials
-* Full support with ``aws-cli`` profiles
+* ``aws2fa`` respects ``aws-cli`` configuration. No new magic or duplicated credentials
+* Full integration with ``aws-cli`` profiles
 * Smooth device handling
 * Super minimal implementation
 
