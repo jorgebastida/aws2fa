@@ -15,9 +15,8 @@ except NameError:
 class AWS2FA(object):
 
     def __init__(self, **kwargs):
-        self._devices_path = os.path.join(self._get_configuration_path(), 'devices')
+        self._config_path = os.path.join(self._get_configuration_path(), 'config')
         self._credentials_path = os.path.join(self._get_configuration_path(), 'credentials')
-        self._master_credentials_path = os.path.join(self._get_configuration_path(), 'credentials_master')
         self.profile = kwargs.get('profile')
         self.hours = kwargs.get('hours')
         self._profile_credentials = self._get_profile_credentials()
@@ -37,47 +36,66 @@ class AWS2FA(object):
         parser.read(path)
         return parser
 
+    def _get_source_profile_name(self):
+        return u"{}::source-profile".format(self.profile)
+
     def _get_profile_credentials(self):
         """Returns a dictionary with aws credentials.
-        Configuration in the master credentials path has higher priority than
-        the original credentials path.
+        Configuration for a profile named $profile::source-profile has higher
+        priority than $profile.
         If no configuration files are found, ``InvalidProfileError`` will be
         raised.
         """
-        for source in (self._master_credentials_path, self._credentials_path):
-            parser = self._get_credentials_config(source)
-            if parser.has_section(self.profile):
-                return dict(parser.items(self.profile))
+        parser = self._get_credentials_config(self._credentials_path)
+        if parser.has_section(self._get_source_profile_name()):
+            return dict(parser.items(self._get_source_profile_name()))
+        if parser.has_section(self.profile):
+            return dict(parser.items(self.profile))
         raise exceptions.InvalidProfileError()
 
-    def _get_devices(self):
-        """Returns a ConfigParser instance for the devices"""
+    def _get_config(self):
+        """Returns a ConfigParser instance for the config file"""
         parser = ConfigParser()
-        success = parser.read(self._devices_path)
-        if not success:
-            return self._setup_profile_device()
+        parser.read(self._config_path)
         return parser
+
+    def _config_profile_name(self):
+        if self.profile == "default":
+            return self.profile
+        return "profile {}".format(self.profile)
 
     def _get_profile_device(self):
-        """Returns the device configuration for the current profile.
+        """Returns the device for the current profile.
         If the configuration is not present, ``_setup_profile_device`` will
         be called so it is fulfill"""
-        parser = self._get_devices()
-        if not parser.has_section(self.profile):
-            parser = self._setup_profile_device()
-        return dict(parser.items(self.profile))
+        parser = self._get_config()
+        if parser.has_section(self._config_profile_name()):
+            config = dict(parser.items(self._config_profile_name()))
+            return config.get('mfa_serial') or self._setup_profile_device()
+        return self._setup_profile_device()
 
     def _setup_profile_device(self):
-        """Returns a ConfigParser instance for the device configuration after
-        asking the user the serial number of the device."""
-        parser = ConfigParser()
-        parser.read(self._devices_path)
-        serial_number = input("2FA device serial number for profile '{}': ".format(self.profile))
-        parser.add_section(self.profile)
-        parser.set(self.profile, 'serial_number', serial_number)
-        with open(self._devices_path, 'wb') as f:
+        """Returns and configure the device for the current profile."""
+        parser = self._get_config()
+        serial_number = input("2FA device serial number for profile '{}': ".format(self.profile)).strip()
+
+        if not parser.has_section(self._config_profile_name()):
+            parser.add_section(self._config_profile_name())
+        parser.set(self._config_profile_name(), 'mfa_serial', serial_number)
+
+        configuration = dict(parser.items(self._config_profile_name()))
+
+        # Add a default region if it is not present
+        if 'region' not in configuration:
+            parser.set(self._config_profile_name(), 'region', 'us-west-2')
+
+        # Add source_profile if it is not present
+        if 'source_profile' not in configuration:
+            parser.set(self._config_profile_name(), 'source_profile', self._get_source_profile_name())
+
+        with open(self._config_path, 'wb') as f:
             parser.write(f)
-        return parser
+        return serial_number
 
     def get_duration(self):
         """Returns the number of seconds for which the token will be valid."""
@@ -85,27 +103,27 @@ class AWS2FA(object):
 
     def get_serial_number(self):
         """Returns the serial_number of the device configured in this profile."""
-        return self._profile_device["serial_number"]
+        return self._profile_device
 
     def get_token_code(self):
         """Asks and return the the user 2FA token after some basic validation."""
         token_code = ""
         while len(token_code) != 6:
-            token_code = input("2FA code: ")
+            token_code = input("2FA code: ").strip()
         return token_code
 
     def _save_master_credentials_if_required(self):
-        """Stores in the master credentials config file both the
-        ``aws_secret_access_key`` and ``aws_access_key_id`` present in the
-        original ``credentials`` file."""
-        profile_credentials = dict(self._get_credentials_config(self._credentials_path).items(self.profile))
-        master_parser = self._get_credentials_config(self._master_credentials_path)
-        if not master_parser.has_section(self.profile):
-            master_parser.add_section(self.profile)
-            master_parser.set(self.profile, 'aws_secret_access_key', profile_credentials['aws_secret_access_key'])
-            master_parser.set(self.profile, 'aws_access_key_id', profile_credentials['aws_access_key_id'])
-            with open(self._master_credentials_path, 'wb') as f:
-                master_parser.write(f)
+        """Stores the master credentials in a profile called
+        $profile::source-profile"""
+        credentials_parser = self._get_credentials_config(self._credentials_path)
+        profile_credentials = dict(credentials_parser.items(self.profile))
+
+        if not credentials_parser.has_section(self._get_source_profile_name()):
+            credentials_parser.add_section(self._get_source_profile_name())
+            credentials_parser.set(self._get_source_profile_name(), 'aws_secret_access_key', profile_credentials['aws_secret_access_key'])
+            credentials_parser.set(self._get_source_profile_name(), 'aws_access_key_id', profile_credentials['aws_access_key_id'])
+            with open(self._credentials_path, 'wb') as f:
+                credentials_parser.write(f)
 
     def _set_session_credentials(self, **kwargs):
         """Stores the credentials in ``kwargs`` in the credentials file."""

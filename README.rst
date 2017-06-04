@@ -36,14 +36,13 @@ We assume you have previously installed and configured ``aws-cli``::
     $ awscli configure
 
 
-Configuration files
---------------------
+Configuration conventions
+---------------------------
 
-``aws2fa`` handles this configuration automatically for you. You don't need to create these files manually.
+``aws2fa`` handles this automatically for you. You don't need to worry about this.
 
-* ``~/.aws/devices``: In this file, ``aws2fa`` stores the device serial number of your 2fa device for each of your profiles. If the file is not present, or you are configuring a new profile, ``aws2fa`` will ask you for the serial number and store it in this file.
-* ``~/.aws/credentials_master``: In this file, ``aws2fa`` stores the original master credentials which will be used in the future to retrieve more temporal credentials.
-
+* ``$profile::source-profile``: A profile with this name will be created to store your original credentials.
+* ``$profile``: This profile will contain the temporal credentials for the duration of your session.
 
 Contribute
 -----------
@@ -60,3 +59,4 @@ Helpful Links
 -------------
 
 * http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+* https://cloudonaut.io/improve-aws-security-protect-your-keys-with-ease/
