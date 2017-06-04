@@ -44,16 +44,6 @@ Configuration conventions
 * ``$profile::source-profile``: A profile with this name will be created to store your original credentials.
 * ``$profile``: This profile will contain the temporal credentials for the duration of your session.
 
-Contribute
------------
-
-* Fork the repository on GitHub.
-* Write a test which shows that the bug was fixed or that the feature works as expected.
-
-  - Use ``tox`` command to run all the tests in all locally available python version.
-
-* Send a pull request and bug the maintainer until it gets merged and published. :).
-
 
 AWS configuration
 ------------------
@@ -95,3 +85,14 @@ Helpful Links
 
 * http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 * https://cloudonaut.io/improve-aws-security-protect-your-keys-with-ease/
+
+
+Contribute
+-----------
+
+* Fork the repository on GitHub.
+* Write a test which shows that the bug was fixed or that the feature works as expected.
+
+  - Use ``tox`` command to run all the tests in all locally available python version.
+
+* Send a pull request and bug the maintainer until it gets merged and published. :).
