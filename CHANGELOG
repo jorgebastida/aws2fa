@@ -1,3 +1,7 @@
+0.0.2
+=====
+* Simplify the internal management of profiles and 2fa devices to make it more aligned with aws role management
+
 0.0.1
 =====
 * Initial release

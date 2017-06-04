@@ -20,7 +20,7 @@ if 'bdist_wheel' not in sys.argv and sys.version_info < (2, 7):
 
 setup(
     name='aws2fa',
-    version='0.0.1',
+    version='0.0.2',
     url='https://github.com/jorgebastida/aws2fa',
     license='BSD',
     author='Jorge Bastida',
