@@ -77,17 +77,18 @@ class AWS2FA(object):
     def _setup_profile_device(self):
         """Returns and configure the device for the current profile."""
         parser = self._get_config()
-        serial_number = input("2FA device serial number for profile '{}': ".format(self.profile)).strip()
+        serial_number = input("2FA device ARN for profile '{}': ".format(self.profile)).strip()
 
         if not parser.has_section(self._config_profile_name()):
             parser.add_section(self._config_profile_name())
         parser.set(self._config_profile_name(), 'mfa_serial', serial_number)
-
+        
         configuration = dict(parser.items(self._config_profile_name()))
 
         # Add a default region if it is not present
         if 'region' not in configuration:
-            parser.set(self._config_profile_name(), 'region', 'us-west-2')
+            default_region = dict(parser.items('default')).get('region', 'us-west-2')
+            parser.set(self._config_profile_name(), 'region', default_region)
 
         # Add source_profile if it is not present
         if 'source_profile' not in configuration:
@@ -109,7 +110,7 @@ class AWS2FA(object):
         """Asks and return the the user 2FA token after some basic validation."""
         token_code = ""
         while len(token_code) != 6:
-            token_code = input("2FA code: ").strip()
+            token_code = input("Enter 2FA code: ").strip()
         return token_code
 
     def _save_master_credentials_if_required(self):
