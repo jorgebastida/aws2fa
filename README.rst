@@ -60,3 +60,28 @@ Helpful Links
 
 * http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 * https://cloudonaut.io/improve-aws-security-protect-your-keys-with-ease/
+
+
+AWS configuration
+------------------
+
+* Create a user in the IAM console
+* Create and attach a policy which defines a explicit deny to all actions and resources if a multi-factor device is not present (`Documentation about explicit-deny<http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#AccessPolicyLanguage_Interplay>`_)::
+
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Deny",
+                "Action": "*",
+                "Resource": "*",
+                "Condition": {
+                    "BoolIfExists": {
+                        "aws:MultiFactorAuthPresent": false
+                    }
+                }
+            }
+        ]
+    }
+
+* Attach any other custom or aws-provided policy to the user that you want allow access to.
