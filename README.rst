@@ -55,13 +55,6 @@ Contribute
 * Send a pull request and bug the maintainer until it gets merged and published. :).
 
 
-Helpful Links
--------------
-
-* http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
-* https://cloudonaut.io/improve-aws-security-protect-your-keys-with-ease/
-
-
 AWS configuration
 ------------------
 
@@ -85,3 +78,20 @@ AWS configuration
     }
 
 * Attach any other custom or aws-provided policy to the user that you want allow access to.
+
+
+Alternatives
+-------------
+
+Another option would be to use what Andreas Wittig describes in his article `Improve AWS security: protect your keys with ease <https://cloudonaut.io/improve-aws-security-protect-your-keys-with-ease/>`_. The idea behind, is to instead of doing a explicit-deny on all resources or actions (if a 2fa token has not been used), you just allow the user to assume a role if a 2fa device is present.
+
+Then, after creating different roles, you can configure ``aws-cli`` to assume certain roles when you use certain profiles.
+
+I can see why this approach is interesting for many cases, but I believe following the explicit deny approach is more straight forward for many others.
+
+
+Helpful Links
+-------------
+
+* http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+* https://cloudonaut.io/improve-aws-security-protect-your-keys-with-ease/
