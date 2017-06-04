@@ -66,7 +66,7 @@ AWS configuration
 ------------------
 
 * Create a user in the IAM console
-* Create and attach a policy which defines a explicit deny to all actions and resources if a multi-factor device is not present (`Documentation about explicit-deny<http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#AccessPolicyLanguage_Interplay>`_)::
+* Create and attach a policy which defines a explicit deny to all actions and resources if a multi-factor device is not present (`Documentation about explicit-deny <http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#AccessPolicyLanguage_Interplay>`_.)::
 
     {
         "Version": "2012-10-17",
