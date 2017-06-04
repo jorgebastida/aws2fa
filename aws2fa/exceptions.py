@@ -14,5 +14,5 @@ class InvalidProfileError(BaseAWS2FAException):
 
 class CredentialsNotFoundError(BaseAWS2FAException):
 
-    code = 2
+    code = 3
     hint = "Credentials file ~/.aws/credentials not found"
