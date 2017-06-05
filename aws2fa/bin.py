@@ -30,7 +30,6 @@ def main(argv=None):
 
     # Parse input
     options, args = parser.parse_known_args(argv)
-
     try:
         aws2fa = AWS2FA(**vars(options))
         aws2fa.run()

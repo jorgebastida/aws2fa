@@ -7,6 +7,9 @@ install_requires = [
     'boto3>=1.4'
 ]
 
+tests_requires = [
+    'mock>=2.0.0'
+]
 
 # as of Python >= 2.7 argparse module is maintained within Python.
 extras_require = {
@@ -31,6 +34,7 @@ setup(
     platforms='any',
     install_requires=install_requires,
     extras_require=extras_require,
+    tests_require=tests_requires,
     test_suite='tests',
     classifiers=[
         'Programming Language :: Python :: 3',

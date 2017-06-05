@@ -9,10 +9,14 @@ class BaseAWS2FAException(Exception):
 class InvalidProfileError(BaseAWS2FAException):
 
     code = 2
-    hint = "The provided profile name is not present in your ~/.aws/credentials file"
+
+    def hint(self):
+        return "The provided profile name is not present in your ~/.aws/credentials file"
 
 
 class CredentialsNotFoundError(BaseAWS2FAException):
 
     code = 3
-    hint = "Credentials file ~/.aws/credentials not found"
+
+    def hint(self):
+        return "Credentials file ~/.aws/credentials not found"

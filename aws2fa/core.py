@@ -21,11 +21,17 @@ class AWS2FA(object):
         self.hours = kwargs.get('hours')
         self._profile_credentials = self._get_profile_credentials()
         self._profile_device = self._get_profile_device()
-        self.client = boto3.client(
+        self.client = self._get_sts_client()
+
+    def _get_sts_client(self):
+        return boto3.client(
             'sts',
             aws_access_key_id=self._profile_credentials['aws_access_key_id'],
             aws_secret_access_key=self._profile_credentials['aws_secret_access_key'],
         )
+
+    def _user_input(self, message):
+        return input(message).strip()
 
     def _get_configuration_path(self):
         return os.path.join(os.path.expanduser('~'), '.aws')
@@ -77,12 +83,12 @@ class AWS2FA(object):
     def _setup_profile_device(self):
         """Returns and configure the device for the current profile."""
         parser = self._get_config()
-        serial_number = input("2FA device ARN for profile '{}': ".format(self.profile)).strip()
+        serial_number = self._user_input("2FA device ARN for profile '{}': ".format(self.profile)).strip()
 
         if not parser.has_section(self._config_profile_name()):
             parser.add_section(self._config_profile_name())
         parser.set(self._config_profile_name(), 'mfa_serial', serial_number)
-        
+
         configuration = dict(parser.items(self._config_profile_name()))
 
         # Add a default region if it is not present
@@ -110,7 +116,7 @@ class AWS2FA(object):
         """Asks and return the the user 2FA token after some basic validation."""
         token_code = ""
         while len(token_code) != 6:
-            token_code = input("Enter 2FA code: ").strip()
+            token_code = self._user_input("Enter 2FA code: ").strip()
         return token_code
 
     def _save_master_credentials_if_required(self):
