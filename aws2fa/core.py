@@ -127,8 +127,16 @@ class AWS2FA(object):
 
         if not credentials_parser.has_section(self._get_source_profile_name()):
             credentials_parser.add_section(self._get_source_profile_name())
-            credentials_parser.set(self._get_source_profile_name(), 'aws_secret_access_key', profile_credentials['aws_secret_access_key'])
-            credentials_parser.set(self._get_source_profile_name(), 'aws_access_key_id', profile_credentials['aws_access_key_id'])
+            credentials_parser.set(
+                self._get_source_profile_name(),
+                'aws_secret_access_key',
+                profile_credentials['aws_secret_access_key']
+            )
+            credentials_parser.set(
+                self._get_source_profile_name(),
+                'aws_access_key_id',
+                profile_credentials['aws_access_key_id']
+            )
             with open(self._credentials_path, 'w') as f:
                 credentials_parser.write(f)
 
